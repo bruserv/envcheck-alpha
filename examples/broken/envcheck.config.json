@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "sources": ["src"],
+  "example": ".env.example",
+  "envFiles": [],
+  "compose": { "file": "compose.yaml", "service": "api" },
+  "variables": {
+    "DATABASE_URL": { "type": "url", "required": true },
+    "PORT": { "type": "port", "required": false }
+  }
+}

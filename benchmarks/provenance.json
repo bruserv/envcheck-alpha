@@ -1,0 +1,84 @@
+{
+  "cases": [
+    {
+      "name": "real-world: sindresorhus/env-paths (process destructuring alias and computed fallbacks)",
+      "repo": "https://github.com/sindresorhus/env-paths",
+      "commit": "02bed3cb7e429599ff57276cba1e0fe4477bbc37",
+      "path": "index.js",
+      "license": "MIT",
+      "copyright": "Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)"
+    },
+    {
+      "name": "real-world: unjs/std-env (identifier shadowing and cross-file env re-export)",
+      "repo": "https://github.com/unjs/std-env",
+      "commit": "a737979c093cf02381a21cb823c78e271cab24c2",
+      "paths": [
+        "src/env.ts",
+        "src/flags.ts"
+      ],
+      "license": "MIT",
+      "copyright": "Copyright (c) Pooya Parsa <pooya@pi0.io>"
+    },
+    {
+      "name": "real-world: t3-oss/create-t3-app (T3 Env Next.js with Zod and conditional validator)",
+      "repo": "https://github.com/t3-oss/create-t3-app",
+      "commit": "4709861f7e67a15564c0460c13e7b4b6cfcae40d",
+      "path": "cli/template/extras/src/env/with-auth-db.js",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2022 Shoubhit Dash"
+    },
+    {
+      "name": "real-world: t3-oss/t3-env Next.js example (experimental__runtimeEnv and extends preset)",
+      "repo": "https://github.com/t3-oss/t3-env",
+      "commit": "7d26a645904a8fa8712c16f31a4737a80e7066fd",
+      "path": "examples/nextjs/app/env.ts",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2023 Julius Marminge"
+    },
+    {
+      "name": "real-world: t3-oss/t3-env Astro + TSX example (env-core, import.meta.env, cross-file TSX consumer)",
+      "repo": "https://github.com/t3-oss/t3-env",
+      "commit": "7d26a645904a8fa8712c16f31a4737a80e7066fd",
+      "paths": [
+        "examples/astro-zod/src/t3-env.ts",
+        "examples/astro-zod/src/counter.tsx"
+      ],
+      "license": "MIT",
+      "copyright": "Copyright (c) 2023 Julius Marminge"
+    },
+    {
+      "name": "real-world: alan2207/bulletproof-react (custom local createEnv function with plain Zod)",
+      "repo": "https://github.com/alan2207/bulletproof-react",
+      "commit": "9506629ed003a561c6627735480cce4994244bb4",
+      "path": "apps/nextjs-app/src/config/env.ts",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2021 Alan Alickovic"
+    },
+    {
+      "name": "real-world: trpc/trpc Next.js Prisma starter (plain Zod safeParse on process.env)",
+      "repo": "https://github.com/trpc/trpc",
+      "commit": "1c9bf51ea572fd46fa52fb725999b8d0c6950386",
+      "path": "examples/next-prisma-starter/src/server/env.ts",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2023 Alex / KATT"
+    },
+    {
+      "name": "real-world: trpc/trpc www docs (Zod schema parsing arbitrary function argument, not process.env)",
+      "repo": "https://github.com/trpc/trpc",
+      "commit": "1c9bf51ea572fd46fa52fb725999b8d0c6950386",
+      "path": "www/src/utils/env.js",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2023 Alex / KATT"
+    },
+    {
+      "name": "real-world: af/envalid (envalid.cleanEnv wrapper on process.env)",
+      "repo": "https://github.com/af/envalid",
+      "commit": "2cd9e93777894240d6c560411e44705672b7a13c",
+      "path": "example/env.js",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2016 Aaron Franks"
+    }
+  ],
+  "syntheticLicense": "MIT (EnvCheck LICENSE)",
+  "applicationCodeExecuted": false
+}

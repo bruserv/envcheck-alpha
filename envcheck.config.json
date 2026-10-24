@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "sources": ["src"],
+  "example": ".env.example",
+  "envFiles": [],
+  "variables": { "ENVCHECK_TMPDIR": { "required": false } }
+}

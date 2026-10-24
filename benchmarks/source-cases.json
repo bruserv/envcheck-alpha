@@ -1,0 +1,550 @@
+[
+  {
+    "name": "direct node read",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const key = process.env.API_KEY;",
+    "expected": ["API_KEY"],
+    "required": { "API_KEY": true },
+    "unknown": false
+  },
+  {
+    "name": "quoted key",
+    "category": "synthetic",
+    "file": "app.js",
+    "source": "const key = process.env['API_KEY'];",
+    "expected": ["API_KEY"],
+    "required": { "API_KEY": true },
+    "unknown": false
+  },
+  {
+    "name": "bracket env",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const key = process['env'].API_KEY;",
+    "expected": ["API_KEY"],
+    "required": { "API_KEY": true },
+    "unknown": false
+  },
+  {
+    "name": "Vite client config",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const url = import.meta.env.VITE_API_URL;",
+    "expected": ["VITE_API_URL"],
+    "required": { "VITE_API_URL": true },
+    "unknown": false
+  },
+  {
+    "name": "comments and text",
+    "category": "synthetic",
+    "file": "app.js",
+    "source": "// process.env.FAKE\nconst text = 'process.env.ALSO_FAKE';",
+    "expected": [],
+    "required": {},
+    "unknown": false
+  },
+  {
+    "name": "regex literal",
+    "category": "synthetic",
+    "file": "app.js",
+    "source": "const match = /process.env.FAKE/;",
+    "expected": [],
+    "required": {},
+    "unknown": false
+  },
+  {
+    "name": "destructuring",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const { API_KEY, PORT = '3000' } = process.env;",
+    "expected": ["API_KEY", "PORT"],
+    "required": { "API_KEY": true, "PORT": false },
+    "unknown": false
+  },
+  {
+    "name": "destructuring alias",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const { API_KEY: key } = process.env;",
+    "expected": ["API_KEY"],
+    "required": { "API_KEY": true },
+    "unknown": false
+  },
+  {
+    "name": "quoted destructuring",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const { 'API_KEY': key } = process.env;",
+    "expected": ["API_KEY"],
+    "required": { "API_KEY": true },
+    "unknown": false
+  },
+  {
+    "name": "fallback expression with comma",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const { API_KEY = load(first, second), PORT } = process.env;",
+    "expected": ["API_KEY", "PORT"],
+    "required": { "API_KEY": true, "PORT": true },
+    "unknown": true,
+    "unknownReason": "computed destructuring default load(first, second) cannot be verified as a non-empty fallback statically"
+  },
+  {
+    "name": "optional chaining",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const key = process?.env?.API_KEY;",
+    "expected": ["API_KEY"],
+    "required": { "API_KEY": true },
+    "unknown": false
+  },
+  {
+    "name": "environment write",
+    "category": "synthetic",
+    "file": "app.js",
+    "source": "process.env.CREATED = 'example';",
+    "expected": [],
+    "required": {},
+    "unknown": false
+  },
+  {
+    "name": "nullish assignment",
+    "category": "synthetic",
+    "file": "app.js",
+    "source": "process.env.CREATED ??= 'example';",
+    "expected": [],
+    "required": {},
+    "unknown": false
+  },
+  {
+    "name": "local process parameter",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "function read(process) { return process.env.LOCAL_SETTING; }",
+    "expected": [],
+    "required": {},
+    "unknown": true,
+    "unknownReason": "local process parameter shadows global process and makes member reads through it ambiguous"
+  },
+  {
+    "name": "literal default",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const port = process.env.PORT ?? 3000;",
+    "expected": ["PORT"],
+    "required": { "PORT": false },
+    "unknown": false
+  },
+  {
+    "name": "typeof environment read",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const hasKey = typeof process.env.API_KEY;",
+    "expected": ["API_KEY"],
+    "required": { "API_KEY": false },
+    "unknown": false
+  },
+  {
+    "name": "template interpolation",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const label = `${process.env.API_KEY}`;",
+    "expected": ["API_KEY"],
+    "required": { "API_KEY": true },
+    "unknown": false
+  },
+  {
+    "name": "imported env alias",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "import { env } from 'node:process'; const key = env.API_KEY;",
+    "expected": ["API_KEY"],
+    "required": { "API_KEY": true },
+    "unknown": false
+  },
+  {
+    "name": "escaped property name",
+    "category": "synthetic",
+    "file": "app.ts",
+    "source": "const key = process.env['API\\x5fKEY'];",
+    "expected": ["API_KEY"],
+    "required": { "API_KEY": true },
+    "unknown": false
+  },
+  {
+    "name": "JSX text",
+    "category": "synthetic",
+    "file": "view.tsx",
+    "source": "export const View = () => <p>process.env.NOT_A_READ</p>;",
+    "expected": [],
+    "required": {},
+    "unknown": false
+  },
+  {
+    "name": "real-world: sindresorhus/env-paths (process destructuring alias and computed fallbacks)",
+    "category": "real-world",
+    "origin": {
+      "repo": "https://github.com/sindresorhus/env-paths",
+      "commit": "02bed3cb7e429599ff57276cba1e0fe4477bbc37",
+      "path": "index.js",
+      "license": "MIT",
+      "copyright": "Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)"
+    },
+    "file": "index.js",
+    "source": "import os from 'node:os';\nimport path from 'node:path';\nimport process from 'node:process';\n\nconst homedir = os.homedir();\nconst tmpdir = os.tmpdir();\nconst {env} = process;\n\nconst macos = name => {\n\tconst library = path.join(homedir, 'Library');\n\n\treturn {\n\t\tdata: path.join(library, 'Application Support', name),\n\t\tconfig: path.join(library, 'Preferences', name),\n\t\tcache: path.join(library, 'Caches', name),\n\t\tlog: path.join(library, 'Logs', name),\n\t\ttemp: path.join(tmpdir, name),\n\t};\n};\n\nconst windows = name => {\n\tconst appData = env.APPDATA || path.join(homedir, 'AppData', 'Roaming');\n\tconst localAppData = env.LOCALAPPDATA || path.join(homedir, 'AppData', 'Local');\n\n\treturn {\n\t\t// Data/config/cache/log are invented by author as Windows isn't opinionated about this\n\t\tdata: path.join(localAppData, name, 'Data'),\n\t\tconfig: path.join(appData, name, 'Config'),\n\t\tcache: path.join(localAppData, name, 'Cache'),\n\t\tlog: path.join(localAppData, name, 'Log'),\n\t\ttemp: path.join(tmpdir, name),\n\t};\n};\n\n// https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html\nconst linux = name => {\n\tconst username = path.basename(homedir);\n\n\treturn {\n\t\tdata: path.join(env.XDG_DATA_HOME || path.join(homedir, '.local', 'share'), name),\n\t\tconfig: path.join(env.XDG_CONFIG_HOME || path.join(homedir, '.config'), name),\n\t\tcache: path.join(env.XDG_CACHE_HOME || path.join(homedir, '.cache'), name),\n\t\t// https://wiki.debian.org/XDGBaseDirectorySpecification#state\n\t\tlog: path.join(env.XDG_STATE_HOME || path.join(homedir, '.local', 'state'), name),\n\t\ttemp: path.join(tmpdir, username, name),\n\t};\n};\n\nexport default function envPaths(name, {suffix = 'nodejs'} = {}) {\n\tif (typeof name !== 'string') {\n\t\tthrow new TypeError(`Expected a string, got \\`${typeof name}\\``);\n\t}\n\n\tif (suffix) {\n\t\t// Add suffix to prevent possible conflict with native apps\n\t\tname += `-${suffix}`;\n\t}\n\n\tif (process.platform === 'darwin') {\n\t\treturn macos(name);\n\t}\n\n\tif (process.platform === 'win32') {\n\t\treturn windows(name);\n\t}\n\n\treturn linux(name);\n}\n",
+    "expected": [
+      "APPDATA",
+      "LOCALAPPDATA",
+      "XDG_DATA_HOME",
+      "XDG_CONFIG_HOME",
+      "XDG_CACHE_HOME",
+      "XDG_STATE_HOME"
+    ],
+    "required": {
+      "APPDATA": false,
+      "LOCALAPPDATA": false,
+      "XDG_DATA_HOME": false,
+      "XDG_CONFIG_HOME": false,
+      "XDG_CACHE_HOME": false,
+      "XDG_STATE_HOME": false
+    },
+    "unknown": true,
+    "unknownReason": "computed path.join(...) fallbacks on env.* reads cannot be verified as non-empty defaults without interprocedural analysis"
+  },
+  {
+    "name": "real-world: unjs/std-env (identifier shadowing and cross-file env re-export)",
+    "category": "real-world",
+    "origin": {
+      "repo": "https://github.com/unjs/std-env",
+      "commit": "a737979c093cf02381a21cb823c78e271cab24c2",
+      "paths": ["src/env.ts", "src/flags.ts"],
+      "license": "MIT",
+      "copyright": "Copyright (c) Pooya Parsa <pooya@pi0.io>"
+    },
+    "files": [
+      {
+        "file": "src/env.ts",
+        "source": "import type { EnvObject, Process } from \"./types.ts\";\n\nconst _envShim = Object.create(null);\n\nconst _getEnv = (useShim?: boolean): EnvObject =>\n  globalThis.process?.env ||\n  (import.meta as unknown as { env: EnvObject }).env ||\n  (globalThis as unknown as { Deno: { env: { toObject: () => EnvObject } } })\n    .Deno?.env.toObject() ||\n  (globalThis as unknown as { __env__: EnvObject }).__env__ ||\n  (useShim ? _envShim : globalThis);\n\n/**\n * A proxy to the current environment variables.\n */\nexport const env: EnvObject = new Proxy(_envShim, {\n  get(_, prop) {\n    const env = _getEnv();\n    return env[prop as any] ?? _envShim[prop];\n  },\n  has(_, prop) {\n    const env = _getEnv();\n    return prop in env || prop in _envShim;\n  },\n  set(_, prop, value) {\n    const env = _getEnv(true);\n    env[prop as any] = value;\n    return true;\n  },\n  deleteProperty(_, prop) {\n    if (!prop) {\n      return false;\n    }\n    const env = _getEnv(true);\n    delete env[prop as any];\n    return true;\n  },\n  ownKeys() {\n    const env = _getEnv(true);\n    return Object.keys(env);\n  },\n});\n\n/**\n * A proxy to the `process` object.\n */\nexport const process: Process = new Proxy(\n  globalThis.process || { env },\n  {} as any,\n);\n\n/**\n * Value of the current `NODE_ENV` environment variable (if set).\n */\nexport const nodeENV: string =\n  (typeof process !== \"undefined\" && process.env && process.env.NODE_ENV) || \"\";\n"
+      },
+      {
+        "file": "src/flags.ts",
+        "source": "import { env, nodeENV, process } from \"./env.ts\";\nimport { provider } from \"./providers.ts\";\nimport { toBoolean } from \"./_utils.ts\";\n\n/** Value of the process.platform */\nexport const platform = process.platform || \"\";\n\n/** Detect if `CI` environment variable is set or a provider CI detected */\nexport const isCI = toBoolean(env.CI) || Boolean(provider);\n\n/** Detect if stdout.TTY is available */\nexport const hasTTY = toBoolean(process.stdout && process.stdout.isTTY);\n\n/** Detect if global `window` object is available */\nexport const hasWindow = typeof window !== \"undefined\";\n\n/** Detect if `DEBUG` environment variable is set */\nexport const isDebug = toBoolean(env.DEBUG);\n\n/** Detect if `NODE_ENV` environment variable is `test` */\nexport const isTest = nodeENV === \"test\" || toBoolean(env.TEST);\n\n/** Detect if `NODE_ENV` environment variable is `production` */\nexport const isProduction = nodeENV === \"production\";\n\n/** Detect if `NODE_ENV` environment variable is `development` */\nexport const isDevelopment = nodeENV === \"development\" || nodeENV === \"dev\";\n\n/** Detect if MINIMAL environment variable is set, running in CI or test or TTY is unavailable */\nexport const isMinimal = toBoolean(env.MINIMAL) || isCI || isTest || !hasTTY;\n\n/** Detect if process.platform is Windows */\nexport const isWindows = /^win/i.test(platform);\n\n/** Detect if process.platform is Linux */\nexport const isLinux = /^linux/i.test(platform);\n\n/** Detect if process.platform is macOS (darwin kernel) */\nexport const isMacOS = /^darwin/i.test(platform);\n\n/** Color Support */\nexport const isColorSupported =\n  !toBoolean(env.NO_COLOR) &&\n  (toBoolean(env.FORCE_COLOR) ||\n    ((hasTTY || isWindows) && env.TERM !== \"dumb\") ||\n    isCI);\n\n/** Value of the NODE_ENV environment variable (or sensitive fallback to MODE) */\nexport const mode = nodeENV || env.MODE;\n"
+      }
+    ],
+    "expected": [
+      "NODE_ENV",
+      "CI",
+      "DEBUG",
+      "TEST",
+      "MINIMAL",
+      "NO_COLOR",
+      "FORCE_COLOR",
+      "TERM",
+      "MODE"
+    ],
+    "required": {
+      "NODE_ENV": false,
+      "CI": false,
+      "DEBUG": false,
+      "TEST": false,
+      "MINIMAL": false,
+      "NO_COLOR": false,
+      "FORCE_COLOR": false,
+      "TERM": false,
+      "MODE": false
+    },
+    "unknown": true,
+    "unknownReason": "src/env.ts shadows global process with a custom exported proxy and re-exports a custom env helper across files"
+  },
+  {
+    "name": "real-world: t3-oss/create-t3-app (T3 Env Next.js with Zod and conditional validator)",
+    "category": "real-world",
+    "origin": {
+      "repo": "https://github.com/t3-oss/create-t3-app",
+      "commit": "4709861f7e67a15564c0460c13e7b4b6cfcae40d",
+      "path": "cli/template/extras/src/env/with-auth-db.js",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2022 Shoubhit Dash"
+    },
+    "file": "src/env.js",
+    "source": "import { createEnv } from \"@t3-oss/env-nextjs\";\nimport { z } from \"zod\";\n\nexport const env = createEnv({\n  /**\n   * Specify your server-side environment variables schema here. This way you can ensure the app\n   * isn't built with invalid env vars.\n   */\n  server: {\n    AUTH_SECRET:\n      process.env.NODE_ENV === \"production\"\n        ? z.string()\n        : z.string().optional(),\n    AUTH_DISCORD_ID: z.string(),\n    AUTH_DISCORD_SECRET: z.string(),\n    DATABASE_URL: z.string().url(),\n    NODE_ENV: z\n      .enum([\"development\", \"test\", \"production\"])\n      .default(\"development\"),\n  },\n\n  /**\n   * Specify your client-side environment variables schema here. This way you can ensure the app\n   * isn't built with invalid env vars. To expose them to the client, prefix them with\n   * `NEXT_PUBLIC_`.\n   */\n  client: {\n    // NEXT_PUBLIC_CLIENTVAR: z.string(),\n  },\n\n  /**\n   * You can't destruct `process.env` as a regular object in the Next.js edge runtimes (e.g.YT\n   * middlewares) or client-side so we need to destruct manually.\n   */\n  runtimeEnv: {\n    AUTH_SECRET: process.env.AUTH_SECRET,\n    AUTH_DISCORD_ID: process.env.AUTH_DISCORD_ID,\n    AUTH_DISCORD_SECRET: process.env.AUTH_DISCORD_SECRET,\n    DATABASE_URL: process.env.DATABASE_URL,\n    NODE_ENV: process.env.NODE_ENV,\n  },\n  /**\n   * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially\n   * useful for Docker builds.\n   */\n  skipValidation: !!process.env.SKIP_ENV_VALIDATION,\n  /**\n   * Makes it so that empty strings are treated as undefined. `SOME_VAR: z.string()` and\n   * `SOME_VAR=''` will throw an error.\n   */\n  emptyStringAsUndefined: true,\n});\n",
+    "expected": [
+      "AUTH_SECRET",
+      "AUTH_DISCORD_ID",
+      "AUTH_DISCORD_SECRET",
+      "DATABASE_URL",
+      "NODE_ENV",
+      "SKIP_ENV_VALIDATION"
+    ],
+    "required": {
+      "AUTH_SECRET": true,
+      "AUTH_DISCORD_ID": true,
+      "AUTH_DISCORD_SECRET": true,
+      "DATABASE_URL": true,
+      "NODE_ENV": false,
+      "SKIP_ENV_VALIDATION": false
+    },
+    "unknown": true,
+    "unknownReason": "AUTH_SECRET uses a conditional ternary validator (process.env.NODE_ENV === 'production' ? z.string() : z.string().optional())"
+  },
+  {
+    "name": "real-world: t3-oss/t3-env Next.js example (experimental__runtimeEnv and extends preset)",
+    "category": "real-world",
+    "origin": {
+      "repo": "https://github.com/t3-oss/t3-env",
+      "commit": "7d26a645904a8fa8712c16f31a4737a80e7066fd",
+      "path": "examples/nextjs/app/env.ts",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2023 Julius Marminge"
+    },
+    "file": "app/env.ts",
+    "source": "import { createEnv } from \"@t3-oss/env-nextjs\";\nimport { vercel } from \"@t3-oss/env-nextjs/presets-zod\";\nimport { z } from \"zod\";\n\nexport const env = createEnv({\n  client: {\n    NEXT_PUBLIC_GREETING: z.string(),\n  },\n  server: {\n    SECRET: z.string(),\n  },\n  shared: {\n    NODE_ENV: z.enum([\"development\", \"production\"]),\n  },\n  experimental__runtimeEnv: {\n    NODE_ENV: process.env.NODE_ENV,\n    NEXT_PUBLIC_GREETING: process.env.NEXT_PUBLIC_GREETING,\n  },\n  extends: [vercel()],\n});\n",
+    "expected": [
+      "NEXT_PUBLIC_GREETING",
+      "SECRET",
+      "NODE_ENV"
+    ],
+    "required": {
+      "NEXT_PUBLIC_GREETING": true,
+      "SECRET": true,
+      "NODE_ENV": true
+    },
+    "unknown": true,
+    "unknownReason": "extends: [vercel()] imports external preset variables that cannot be resolved without cross-package evaluation"
+  },
+  {
+    "name": "real-world: t3-oss/t3-env Astro + TSX example (env-core, import.meta.env, cross-file TSX consumer)",
+    "category": "real-world",
+    "origin": {
+      "repo": "https://github.com/t3-oss/t3-env",
+      "commit": "7d26a645904a8fa8712c16f31a4737a80e7066fd",
+      "paths": ["examples/astro-zod/src/t3-env.ts", "examples/astro-zod/src/counter.tsx"],
+      "license": "MIT",
+      "copyright": "Copyright (c) 2023 Julius Marminge"
+    },
+    "files": [
+      {
+        "file": "src/t3-env.ts",
+        "source": "import { createEnv } from \"@t3-oss/env-core\";\nimport { z } from \"zod\";\n\nexport const env = createEnv({\n  server: {\n    PORT: z.string(),\n  },\n\n  /**\n   * The prefix that client-side variables must have. This is enforced both at\n   * a type-level and at runtime.\n   */\n  clientPrefix: \"PUBLIC_\",\n\n  client: {\n    PUBLIC_API_URL: z.string(),\n  },\n\n  /**\n   * What object holds the environment variables at runtime. This is usually\n   * `process.env` or `import.meta.env`.\n   */\n  runtimeEnv: import.meta.env,\n\n  /**\n   * By default, this library will feed the environment variables directly to\n   * the Zod validator.\n   *\n   * This means that if you have an empty string for a value that is supposed\n   * to be a number (e.g. `PORT=` in a `.env` file), Zod will incorrectly flag\n   * it as a type mismatch violation.\n   *\n   * By setting this option to `true`, we tell the library to treat empty\n   * strings as `undefined`.\n   */\n  emptyStringAsUndefined: true,\n\n  /**\n   * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.\n   * This is especially useful for Docker builds.\n   */\n  skipValidation: import.meta.env.SKIP_ENV_VALIDATION === \"development\",\n});\n"
+      },
+      {
+        "file": "src/counter.tsx",
+        "source": "import { env } from \"./t3-env\";\n\nexport function Counter() {\n  console.log(\" initializing counter on the client\", env.PUBLIC_API_URL);\n  return <div>Client API Url:{env.PUBLIC_API_URL}</div>;\n}\n"
+      }
+    ],
+    "expected": [
+      "PORT",
+      "PUBLIC_API_URL",
+      "SKIP_ENV_VALIDATION"
+    ],
+    "required": {
+      "PORT": true,
+      "PUBLIC_API_URL": true,
+      "SKIP_ENV_VALIDATION": false
+    },
+    "unknown": false
+  },
+  {
+    "name": "real-world: alan2207/bulletproof-react (custom local createEnv function with plain Zod)",
+    "category": "real-world",
+    "origin": {
+      "repo": "https://github.com/alan2207/bulletproof-react",
+      "commit": "9506629ed003a561c6627735480cce4994244bb4",
+      "path": "apps/nextjs-app/src/config/env.ts",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2021 Alan Alickovic"
+    },
+    "file": "src/config/env.ts",
+    "source": "import * as z from 'zod';\nimport 'dotenv/config';\n\nconst createEnv = () => {\n  const EnvSchema = z.object({\n    API_URL: z.string(),\n    ENABLE_API_MOCKING: z\n      .string()\n      .refine((s) => s === 'true' || s === 'false')\n      .transform((s) => s === 'true')\n      .optional(),\n    APP_URL: z.string().optional().default('http://localhost:3000'),\n    APP_MOCK_API_PORT: z.string().optional().default('8080'),\n  });\n\n  const envVars = {\n    API_URL: process.env.NEXT_PUBLIC_API_URL,\n    ENABLE_API_MOCKING: process.env.NEXT_PUBLIC_ENABLE_API_MOCKING,\n    APP_URL: process.env.NEXT_PUBLIC_URL,\n    APP_MOCK_API_PORT: process.env.NEXT_PUBLIC_MOCK_API_PORT,\n  };\n\n  const parsedEnv = EnvSchema.safeParse(envVars);\n\n  if (!parsedEnv.success) {\n    throw new Error(\n      `Invalid env provided.\n  The following variables are missing or invalid:\n  ${Object.entries(parsedEnv.error.flatten().fieldErrors)\n    .map(([k, v]) => `- ${k}: ${v}`)\n    .join('\\n')}\n  `,\n    );\n  }\n\n  return parsedEnv.data ?? {};\n};\n\nexport const env = createEnv();\n",
+    "expected": [
+      "NEXT_PUBLIC_API_URL",
+      "NEXT_PUBLIC_ENABLE_API_MOCKING",
+      "NEXT_PUBLIC_URL",
+      "NEXT_PUBLIC_MOCK_API_PORT"
+    ],
+    "required": {
+      "NEXT_PUBLIC_API_URL": true,
+      "NEXT_PUBLIC_ENABLE_API_MOCKING": false,
+      "NEXT_PUBLIC_URL": false,
+      "NEXT_PUBLIC_MOCK_API_PORT": false
+    },
+    "unknown": true,
+    "unknownReason": "Mapped input now links the schema to the actual environment names. The outer optional wrapper establishes optional presence, but custom refine/transform callbacks remain uninterpreted and incomplete."
+  },
+  {
+    "name": "real-world: trpc/trpc Next.js Prisma starter (plain Zod safeParse on process.env)",
+    "category": "real-world",
+    "origin": {
+      "repo": "https://github.com/trpc/trpc",
+      "commit": "1c9bf51ea572fd46fa52fb725999b8d0c6950386",
+      "path": "examples/next-prisma-starter/src/server/env.ts",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2023 Alex / KATT"
+    },
+    "file": "src/server/env.ts",
+    "source": "/**\n * This file is included in `/next.config.ts` which ensures the app isn't built with invalid env vars.\n * It has to be a `.js`-file to be imported there.\n */\n\nimport { z } from 'zod';\n\nconst envSchema = z.object({\n  DATABASE_URL: z.string().url(),\n  NODE_ENV: z.enum(['development', 'test', 'production']),\n});\n\nconst _env = envSchema.safeParse(process.env);\n\nif (!_env.success) {\n  throw new Error(\n    '❌ Invalid environment variables: ' +\n      JSON.stringify(_env.error.format(), null, 4),\n  );\n}\nexport const env = _env.data;\n",
+    "expected": [
+      "DATABASE_URL",
+      "NODE_ENV"
+    ],
+    "required": {
+      "DATABASE_URL": true,
+      "NODE_ENV": true
+    },
+    "unknown": false
+  },
+  {
+    "name": "real-world: trpc/trpc www docs (Zod schema parsing arbitrary function argument, not process.env)",
+    "category": "real-world",
+    "origin": {
+      "repo": "https://github.com/trpc/trpc",
+      "commit": "1c9bf51ea572fd46fa52fb725999b8d0c6950386",
+      "path": "www/src/utils/env.js",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2023 Alex / KATT"
+    },
+    "file": "www/src/utils/env.js",
+    "source": "// @ts-check\nconst { z } = require('zod');\n\n/**\n * @param {Record<string, string | undefined>} input\n */\nfunction parseEnv(input) {\n  const envSchema = z.object({\n    VERCEL_URL: z\n      .string()\n      .default('localhost:3000')\n      .transform((url) => (!url.startsWith('http') ? `https://${url}` : url))\n      .transform((url) => (url.endsWith('/') ? url.slice(0, -1) : url)),\n    VERCEL_ENV: z\n      .enum(['production', 'building', 'development', 'preview'])\n      .default('development'),\n    VERCEL_GIT_COMMIT_REF: z.string().default('none'),\n    TYPEDOC: z\n      .string()\n      .default('true')\n      .transform((v) => v === 'true'),\n  });\n\n  const env = envSchema.parse(input);\n\n  return {\n    ...env,\n    OG_URL: `${env.VERCEL_URL}/api/og`,\n  };\n}\n\nmodule.exports = {\n  parseEnv,\n};\n",
+    "expected": [],
+    "required": {},
+    "unknown": false
+  },
+  {
+    "name": "real-world: af/envalid (envalid.cleanEnv wrapper on process.env)",
+    "category": "real-world",
+    "origin": {
+      "repo": "https://github.com/af/envalid",
+      "commit": "2cd9e93777894240d6c560411e44705672b7a13c",
+      "path": "example/env.js",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2016 Aaron Franks"
+    },
+    "file": "example/env.js",
+    "source": "//Imports for canonical usage:\n// const envalid = require('envalid')\n\nconst envalid = require('../')\n\n// Validate our env takes what it needs before we start the server:\nmodule.exports = envalid.cleanEnv(process.env, {\n  HOST: envalid.host({ default: '127.0.0.1' }),\n  PORT: envalid.port({ default: 3000, desc: 'The port to start the server on' }),\n  MESSAGE: envalid.str({ default: 'Hello, world' }),\n})\n",
+    "expected": [
+      "HOST",
+      "PORT",
+      "MESSAGE"
+    ],
+    "required": {
+      "HOST": false,
+      "PORT": false,
+      "MESSAGE": false
+    },
+    "unknown": true,
+    "unknownReason": "The relative require('../') cannot be identified as the envalid package by single-file binding analysis"
+  },
+  {
+    "name": "envalid package import with static defaults",
+    "file": "env.ts",
+    "source": "import { cleanEnv as clean, str, port } from 'envalid'; clean(process.env, { TOKEN: str(), PORT: port({ default: 3000 }), MESSAGE: str({ default: '' }) });",
+    "expected": ["TOKEN", "PORT", "MESSAGE"],
+    "required": { "TOKEN": true, "PORT": false, "MESSAGE": false },
+    "unknown": false
+  },
+  {
+    "name": "envalid CommonJS devDefault depends on deployment environment",
+    "file": "env.js",
+    "source": "const e = require('envalid'); e.cleanEnv(process.env, { TOKEN: e.str({ devDefault: 'dev' }) });",
+    "expected": ["TOKEN"],
+    "required": { "TOKEN": true },
+    "unknown": true,
+    "unknownReason": "devDefault is not a universal default; conservatively required with incomplete coverage"
+  },
+  {
+    "name": "envalid namespace with a custom validator",
+    "file": "env.js",
+    "source": "import * as e from 'envalid'; const custom = e.makeValidator(x => x); e.cleanEnv(process.env, { TOKEN: custom() });",
+    "expected": ["TOKEN"],
+    "required": { "TOKEN": true },
+    "unknown": true,
+    "unknownReason": "Custom validators are not executed or inferred; the known key stays conservatively required"
+  },
+  {
+    "name": "local cleanEnv function is not envalid",
+    "file": "env.js",
+    "source": "function cleanEnv(input, schema) { return input; } cleanEnv(process.env, { FAKE: str() });",
+    "expected": [],
+    "required": {},
+    "unknown": true,
+    "unknownReason": "Passing the environment to an unrecognized function remains unresolved"
+  },
+  {
+    "name": "standalone Zod with scoped schema aliases and static defaults",
+    "file": "env.ts",
+    "source": "import { z as s } from 'zod'; const schema = s.object({ API_KEY: s.string(), PORT: s.number().default(3000), LABEL: s.string().optional() }); const alias = schema; alias.safeParse(process.env);",
+    "expected": ["API_KEY", "PORT", "LABEL"],
+    "required": { "API_KEY": true, "PORT": false, "LABEL": false },
+    "unknown": false
+  },
+  {
+    "name": "standalone Zod with Vite input",
+    "file": "env.ts",
+    "source": "import * as z from 'zod'; z.object({ VITE_URL: z.string().url() }).parse(import.meta.env);",
+    "expected": ["VITE_URL"],
+    "required": { "VITE_URL": true },
+    "unknown": false
+  },
+  {
+    "name": "standalone Zod custom transform remains incomplete",
+    "file": "env.ts",
+    "source": "import { z } from 'zod'; z.object({ TOKEN: z.string().transform(fn) }).parse(process.env);",
+    "expected": ["TOKEN"],
+    "required": { "TOKEN": true },
+    "unknown": true,
+    "unknownReason": "A custom transform cannot be statically interpreted; the known key stays conservatively required"
+  },
+  {
+    "name": "standalone Zod dynamic shape spread remains incomplete",
+    "file": "env.ts",
+    "source": "import { z } from 'zod'; z.object({ ...shape }).safeParse(process.env);",
+    "expected": [],
+    "required": {},
+    "unknown": true,
+    "unknownReason": "A dynamic shape can declare additional environment variables"
+  },
+  {
+    "name": "standalone Zod inline mapped Node input keeps actual environment names",
+    "file": "env.ts",
+    "source": "import { z } from 'zod'; z.object({ endpoint: z.string(), label: z.string().default('local') }).parse({ endpoint: process.env.API_URL, label: process.env.APP_LABEL });",
+    "expected": ["API_URL", "APP_LABEL"],
+    "required": { "API_URL": true, "APP_LABEL": false },
+    "unknown": false
+  },
+  {
+    "name": "standalone Zod const mapping aliases and Vite input",
+    "file": "env.ts",
+    "source": "import { z } from 'zod'; const schema = z.object({ endpoint: z.string().optional() }); const input = { endpoint: import.meta.env.VITE_URL }; const alias = input; schema.safeParse(alias);",
+    "expected": ["VITE_URL"],
+    "required": { "VITE_URL": false },
+    "unknown": false
+  },
+  {
+    "name": "standalone Zod mapped input mutation remains incomplete",
+    "file": "env.ts",
+    "source": "import { z } from 'zod'; const schema = z.object({ token: z.string().optional() }); const input = { token: process.env.TOKEN }; customize(input); schema.parse(input);",
+    "expected": ["TOKEN"],
+    "required": { "TOKEN": true },
+    "unknown": true,
+    "unknownReason": "An escaped mapped object could have been mutated; no schema-derived optionality is inferred."
+  },
+  {
+    "name": "standalone Zod outer optional skips inner custom work for missing mapped input",
+    "file": "env.ts",
+    "source": "import { z } from 'zod'; z.object({ flag: z.string().transform(fn).optional() }).parse({ flag: process.env.FEATURE_FLAG });",
+    "expected": ["FEATURE_FLAG"],
+    "required": { "FEATURE_FLAG": false },
+    "unknown": true,
+    "unknownReason": "The outer optional wrapper accepts undefined, but the transform callback is not interpreted."
+  },
+  {
+    "name": "standalone Zod mapped spread remains incomplete and conservative",
+    "file": "env.ts",
+    "source": "import { z } from 'zod'; z.object({ token: z.string().optional() }).parse({ token: process.env.TOKEN, ...other });",
+    "expected": ["TOKEN"],
+    "required": { "TOKEN": true },
+    "unknown": true,
+    "unknownReason": "Spread entries could override the mapped field, so its direct environment read remains conservatively required."
+  }
+]

@@ -1,0 +1,41 @@
+{
+  "name": "envcheck-workbench",
+  "version": "0.2.0-alpha.1",
+  "private": true,
+  "description": "Evidence-based environment configuration checks for developers and coding agents.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": "^22.18.0 || >=24.11.0"
+  },
+  "bin": {
+    "envcheck": "src/cli.mjs"
+  },
+  "exports": "./src/index.mjs",
+  "files": [
+    "src/*.mjs",
+    "skills/envcheck/SKILL.md",
+    "skills/envcheck/references/*.md",
+    "docs/installation.md",
+    "docs/configuration.md",
+    "docs/limitations.md",
+    "docs/zod.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "test:package": "node scripts/test-package.mjs",
+    "demo": "node src/cli.mjs scan examples/broken",
+    "demo:fixed": "node src/cli.mjs scan examples/fixed",
+    "demo:onboarding": "node scripts/onboarding.mjs",
+    "benchmark": "node scripts/benchmark.mjs",
+    "check:docs": "node scripts/check-docs.mjs"
+  },
+  "dependencies": {
+    "@babel/parser": "8.0.7",
+    "@babel/traverse": "8.0.7",
+    "yaml": "2.9.1"
+  }
+}

@@ -1,0 +1,6 @@
+services:
+  api:
+    image: node:22-alpine
+    environment:
+      PORT: "3000"
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL locally}

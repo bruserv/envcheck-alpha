@@ -1,0 +1,13 @@
+node_modules/
+coverage/
+dist/
+artifacts/
+*.tgz
+*.tgz.sha256
+.env
+.env.*
+!.env.example
+!examples/**/.env.example
+.envcheck-report*.json
+.envcheck-test-work/
+examples/reports/

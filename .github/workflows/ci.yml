@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Node ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: ['22.18.0', '22', '24.11.0', '24']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --ignore-scripts
+      - name: Check syntax
+        run: node scripts/check.mjs
+      - name: Check documentation links
+        run: npm run check:docs
+      - name: Run regression tests
+        run: node --test test/*.test.mjs
+      - name: Pack and install outside checkout (registry or warm npm cache required)
+        run: npm run test:package
+      - name: Verify fixed fixture
+        run: node src/cli.mjs scan examples/fixed --strict
+      - name: Check own source scope (dynamic environment access remains partial)
+        run: node src/cli.mjs scan . --no-values
+      - name: Record synthetic scanner benchmark
+        run: node scripts/benchmark.mjs --json
